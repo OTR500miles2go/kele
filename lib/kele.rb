@@ -8,7 +8,11 @@ class Kele
     response = self.class.post("/sessions", body: {email: email, password: password})
     raise "Error accessing username/password!" if response.code != 200
     @auth_token = response["auth_token"]
-
   end
 
+  def get_me
+    response = self.class.get("/users/me", headers: { "authorization" => @auth_token})
+    JSON.parse(response.body)
+  end
+  
 end
